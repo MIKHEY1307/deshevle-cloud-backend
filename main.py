@@ -19,8 +19,6 @@ DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "sk-dc5dbf8ef341419897210d
 async def search(request: Request):
     data = await request.json()
     query = data.get("query", "")
-    address = data.get("address", "")
-
     prompt = (
         f"Найди похожие товары по запросу '{query}' на сайтах Ozon, Wildberries, AliExpress, СберМаркет, Яндекс Маркет. "
         "Верни результат в виде массива JSON, где каждый элемент содержит: "
@@ -55,3 +53,12 @@ async def search(request: Request):
         else:
             products = []
     return {"products": products}
+
+@app.get("/barcode-to-name")
+async def barcode_to_name(barcode: str):
+    # Здесь можно реализовать реальное определение названия по штрихкоду через сторонние сервисы
+    # Пока просто возвращаем заглушку
+    # Например, если штрихкод == "4601234567890", вернуть "Кока-Кола 0.5л"
+    if barcode == "4601234567890":
+        return "Кока-Кола 0.5л"
+    return f"Товар по коду {barcode}"
